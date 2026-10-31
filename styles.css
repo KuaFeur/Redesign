@@ -144,7 +144,7 @@ section[id]{padding:56px 0 8px}
 
 /* contact */
 .contact-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:32px;border-radius:22px;background:var(--accent);color:var(--accent-ink)}
-.contact-card .eyebrow{color:inherit;opacity:.75}
+.contact-card .eyebrow{color:inherit;opacity:.85}
 .contact-id{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0;font:600 clamp(1.1rem,3.4vw,1.8rem) var(--font-mono);overflow-wrap:anywhere}
 .contact-hint{max-width:50ch;margin:10px 0 0;opacity:.85}
 .contact-card .btn{border-color:var(--accent-ink);color:var(--accent-ink)}
