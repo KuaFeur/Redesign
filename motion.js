@@ -15,13 +15,7 @@
     mo.observe(root, { attributes: true, attributeFilter: ["class"] });
   }
 
-  function initBackground() {
-    const bg = document.createElement("div");
-    bg.className = "bg";
-    bg.setAttribute("aria-hidden", "true");
-    bg.innerHTML = '<i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="glow"></i>';
-    document.body.prepend(bg);
-
+  function initChrome() {
     const bar = document.createElement("div");
     bar.className = "progress";
     bar.setAttribute("aria-hidden", "true");
@@ -39,14 +33,24 @@
     update();
 
     if (!fine || reduce) return;
-    const glow = q(".glow", bg);
+    const ring = document.createElement("div");
+    ring.className = "cursor";
+    ring.setAttribute("aria-hidden", "true");
+    document.body.append(ring);
+    let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y;
     addEventListener("pointermove", (e) => {
-      glow.classList.add("on");
-      glow.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
-      bg.style.setProperty("--px", ((e.clientX / innerWidth) - 0.5).toFixed(3));
-      bg.style.setProperty("--py", ((e.clientY / innerHeight) - 0.5).toFixed(3));
+      x = e.clientX; y = e.clientY;
+      ring.classList.add("on");
+      ring.classList.toggle("hot", !!e.target.closest("a,button,.card,.list li"));
     }, { passive: true });
-    document.addEventListener("pointerleave", () => glow.classList.remove("on"));
+    document.addEventListener("pointerleave", () => ring.classList.remove("on"));
+    const loop = () => {
+      rx += (x - rx) * 0.2;
+      ry += (y - ry) * 0.2;
+      ring.style.transform = `translate3d(${rx}px,${ry}px,0)`;
+      raf(loop);
+    };
+    loop();
   }
 
   function initHeroTitle() {
@@ -70,8 +74,7 @@
             s.className = "ch";
             s.textContent = c;
             s.style.setProperty("--i", count);
-            s.style.setProperty("--t", total > 1 ? (count / (total - 1)).toFixed(2) : 0);
-            count++;
+                        count++;
             word.append(s);
           });
           frag.append(word);
@@ -113,35 +116,6 @@
       wrap.setAttribute("aria-hidden", "true");
       wrap.append(a);
       card.append(wrap);
-    });
-    if (!fine || reduce) return;
-    const host = q("#projects");
-    host && host.addEventListener("pointermove", (e) => {
-      const card = e.target.closest(".card");
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty("--mx", e.clientX - r.left + "px");
-      card.style.setProperty("--my", e.clientY - r.top + "px");
-    });
-  }
-
-  function initTilt() {
-    const card = q(".dcard");
-    if (!card || !fine || reduce) return;
-    card.addEventListener("pointermove", (e) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-      card.classList.add("is-tilt");
-      card.style.setProperty("--ry", ((x - 0.5) * 11).toFixed(2) + "deg");
-      card.style.setProperty("--rx", ((0.5 - y) * 11).toFixed(2) + "deg");
-      card.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
-      card.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
-    });
-    card.addEventListener("pointerleave", () => {
-      card.classList.remove("is-tilt");
-      card.style.setProperty("--rx", "0deg");
-      card.style.setProperty("--ry", "0deg");
     });
   }
 
@@ -204,7 +178,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    [initBackground, initHeroTitle, initMarquee, initCardFx, initTilt, initMagnetic, initCounters, initReveal, initThemeAnim]
+    [initChrome, initHeroTitle, initMarquee, initCardFx, initMagnetic, initCounters, initReveal, initThemeAnim]
       .forEach((fn) => { try { fn(); } catch (err) { console.error(fn.name, err); } });
   });
 })();

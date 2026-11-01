@@ -524,7 +524,7 @@ function initBoot() {
     if (finished) return;
     finished = true;
     boot.classList.add("is-done");
-    setTimeout(ready, 380);
+    setTimeout(ready, 300);
   };
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -559,7 +559,7 @@ function initBoot() {
     if (finished) return;
     const p = Math.min(1, (t - t0) / dur);
     const e = 1 - Math.pow(1 - p, 3);
-    bar.style.setProperty("--bp", e.toFixed(3));
+    if (bar) bar.style.setProperty("--bp", e.toFixed(3));
     count.textContent = Math.round(e * 100) + "%";
     if (p < 1) requestAnimationFrame(tick);
     else setTimeout(finish, 180);

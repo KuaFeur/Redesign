@@ -1,9 +1,9 @@
-# Primary Asset — portfolio Discord
+# Primary Asset, portfolio Discord
 
 Page statique (HTML/CSS/JS, sans build ni dépendance) : accueil, projets, bots & communautés,
 résultats web et contact.
 
-Identité affichée : **Primary Asset** · Discord `1156589290252419212`
+Identité affichée : **Primary Asset**, Discord `1156589290252419212`
 → https://discord.com/users/1156589290252419212
 
 ## Fichiers
