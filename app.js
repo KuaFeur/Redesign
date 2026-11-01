@@ -546,25 +546,25 @@ function initBoot() {
     });
     return frag;
   };
-  [...word.childNodes].forEach((node) => {
-    if (node.nodeType === 3) node.replaceWith(wrapLetters(node.textContent));
-    else { const t = node.textContent; node.textContent = ""; node.append(wrapLetters(t)); }
-  });
+  try {
+    [...word.childNodes].forEach((node) => {
+      if (node.nodeType === 3) node.replaceWith(wrapLetters(node.textContent));
+      else { const t = node.textContent; node.textContent = ""; node.append(wrapLetters(t)); }
+    });
+  } catch (err) { console.error(err); }
 
   const bar = q(".boot-bar i", boot);
   const count = q("#boot-count", boot);
   const dur = 1500;
-  const t0 = performance.now();
-  const tick = (t) => {
-    if (finished) return;
-    const p = Math.min(1, (t - t0) / dur);
+  const t0 = Date.now();
+  const timer = setInterval(() => {
+    const p = Math.min(1, (Date.now() - t0) / dur);
     const e = 1 - Math.pow(1 - p, 3);
     if (bar) bar.style.setProperty("--bp", e.toFixed(3));
-    count.textContent = Math.round(e * 100) + "%";
-    if (p < 1) requestAnimationFrame(tick);
-    else setTimeout(finish, 180);
-  };
-  requestAnimationFrame(tick);
+    if (count) count.textContent = Math.round(e * 100) + "%";
+    if (p >= 1) { clearInterval(timer); setTimeout(finish, 180); }
+  }, 30);
+  setTimeout(finish, 3000);
   boot.addEventListener("click", finish);
 }
 

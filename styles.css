@@ -39,6 +39,9 @@ a{color:inherit}
 .boot{position:fixed;inset:0;z-index:900;display:grid;place-items:center;transition:visibility 0s 1.4s}
 .boot.is-done{visibility:hidden;pointer-events:none}
 .boot-stripes{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr)}
+.ready .boot{visibility:hidden;pointer-events:none}
+.ready .boot-stripes i{transform:translateY(-101%)}
+.ready .boot-inner{opacity:0}
 .boot-stripes i{background:var(--s);transition:transform 1s var(--ease);transition-delay:calc(var(--k)*80ms)}
 .boot-stripes i:nth-child(1){--s:var(--yellow);--k:0}
 .boot-stripes i:nth-child(2){--s:var(--coral);--k:1}
