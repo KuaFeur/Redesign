@@ -167,10 +167,10 @@ function renderCard() {
   set("#dc-statut", c.statut || "HORS LIGNE");
   set("#dc-state", c.statut || "HORS LIGNE");
   set("#dc-tag", c.tag ? `🇫🇷 ${c.tag}` : "");
-  set("#dc-role", c.role || "—");
-  set("#dc-serveur", c.serveur || "—");
-  set("#dc-membres", c.membres ? `${c.membres}${c.enLigne ? ` · ${c.enLigne} en ligne` : ""}` : "—");
-  set("#dc-connexion", c.connexion || "—");
+  set("#dc-role", c.role || "Non renseigné");
+  set("#dc-serveur", c.serveur || "Non renseigné");
+  set("#dc-membres", c.membres ? `${c.membres}${c.enLigne ? `, ${c.enLigne} en ligne` : ""}` : "Non renseigné");
+  set("#dc-connexion", c.connexion || "Non renseigné");
   set("#dc-langue", SITE.profil.langue);
 
   const online = /en ligne|online/i.test(c.statut || "");
@@ -245,7 +245,7 @@ function paintPresence(data) {
   let activite = "Aucune";
   if (data.listening_to_spotify && data.spotify) {
     const { song, artist } = data.spotify;
-    activite = song && artist ? `Spotify · ${song} — ${artist}` : "Spotify";
+    activite = song && artist ? `Spotify : ${song}, ${artist}` : "Spotify";
   } else if (current) {
     activite = current.name;
   } else if (custom && custom.state) {
@@ -261,7 +261,7 @@ function paintPresence(data) {
   const text = q("#dc-live-text");
   if (text) {
     const time = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
-    text.textContent = `Direct · ${time}`;
+    text.textContent = `Direct ${time}`;
   }
 }
 
@@ -293,7 +293,7 @@ function resetPresence() {
   if (label) label.textContent = "Dernière connexion";
 
   const value = q("#dc-connexion");
-  if (value) value.textContent = c.connexion || "—";
+  if (value) value.textContent = c.connexion || "Non renseigné";
 }
 
 async function refreshPresence(first = false) {
@@ -423,8 +423,8 @@ function renderBots() {
     const body = el("div");
 
     const title = el("b");
-    if (url) title.append(decorateLink(el("a", "name", bot.nom || "—"), url));
-    else title.textContent = bot.nom || "—";
+    if (url) title.append(decorateLink(el("a", "name", bot.nom || "Sans nom"), url));
+    else title.textContent = bot.nom || "Sans nom";
     body.append(title);
     body.append(el("small", null, bot.detail || ""));
 
@@ -452,7 +452,7 @@ function renderResults() {
     const li = el("li");
     const body = el("div");
 
-    body.append(decorateLink(el("a", "name", result.titre || "—"), url));
+    body.append(decorateLink(el("a", "name", result.titre || "Sans titre"), url));
     body.append(el("small", null, result.detail || ""));
 
     const labels = String(result.etiquette || "").split(",").map((t) => t.trim()).filter(Boolean);
@@ -514,20 +514,58 @@ function initCopy() {
 }
 
 function initBoot() {
+  const root = document.documentElement;
   const boot = q("#boot");
-  if (!boot) return;
+  const ready = () => root.classList.add("ready");
+  if (!boot) { ready(); return; }
 
-  const done = () => boot.classList.add("is-done");
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    boot.classList.add("is-done");
+    setTimeout(ready, 380);
+  };
+
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    done();
+    finished = true;
+    boot.classList.add("is-done");
+    ready();
     return;
   }
 
-  const timer = setTimeout(done, 1300);
-  boot.addEventListener("click", () => {
-    clearTimeout(timer);
-    done();
+  const word = q(".boot-word", boot);
+  let n = 0;
+  const wrapLetters = (text) => {
+    const frag = document.createDocumentFragment();
+    [...text].forEach((c) => {
+      if (c === " ") { frag.append(document.createTextNode(" ")); return; }
+      const s = el("span", null, c);
+      s.style.setProperty("--i", n++);
+      frag.append(s);
+    });
+    return frag;
+  };
+  [...word.childNodes].forEach((node) => {
+    if (node.nodeType === 3) node.replaceWith(wrapLetters(node.textContent));
+    else { const t = node.textContent; node.textContent = ""; node.append(wrapLetters(t)); }
   });
+
+  const bar = q(".boot-bar i", boot);
+  const count = q("#boot-count", boot);
+  const dur = 1500;
+  const t0 = performance.now();
+  const tick = (t) => {
+    if (finished) return;
+    const p = Math.min(1, (t - t0) / dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    bar.style.setProperty("--bp", e.toFixed(3));
+    count.textContent = Math.round(e * 100) + "%";
+    if (p < 1) requestAnimationFrame(tick);
+    else setTimeout(finish, 180);
+  };
+  requestAnimationFrame(tick);
+  boot.addEventListener("click", finish);
 }
 
 function initReveal() {
