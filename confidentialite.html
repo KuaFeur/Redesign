@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Confidentialité et mentions légales — Primary Asset</title>
+    <title>Confidentialité et mentions légales | Primary Asset</title>
     <meta
       name="description"
       content="Politique de confidentialité du site Primary Asset : aucune collecte de données, aucun cookie, aucun traceur par défaut."
@@ -18,7 +18,7 @@
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Primary Asset" />
     <meta property="og:url" content="https://primary-asset.fr/confidentialite.html" />
-    <script>try{var t=localStorage.getItem("pa-theme");document.documentElement.dataset.theme=t||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){}</script>
+    <script>document.documentElement.classList.add("js");setTimeout(function(){document.documentElement.classList.add("ready")},4500);try{var t=localStorage.getItem("pa-theme");document.documentElement.dataset.theme=t||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}catch(e){}</script>
     <link rel="stylesheet" href="assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
     <noscript><style>[data-reveal]{opacity:1;transform:none}</style></noscript>
@@ -40,7 +40,7 @@
         </nav>
         <div class="head-actions">
           <button id="theme" class="icon-btn" type="button" aria-label="Changer de thème">
-            <span aria-hidden="true">◐</span>
+            <svg class="ico-theme" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
           </button>
           <a class="btn btn-sm" href="index.html">Retour au site</a>
         </div>
@@ -155,7 +155,7 @@ Le statut en direct se désactive en recliquant sur le bouton (ou en effaçant l
       <h2>Mentions légales</h2>
       <p>
         Éditeur et directeur de la publication : Primary Asset. Hébergeur : GitHub, Inc., 88 Colin
-        P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis —
+        P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis,
         <a href="https://github.com" rel="noopener">github.com</a>. Noms de domaine :
         primary-asset.fr (site principal) et primary-asset.com (redirection). Le contenu de ce site est
         protégé par le droit d'auteur ; toute reproduction sans autorisation est interdite. Les
@@ -180,15 +180,12 @@ Le statut en direct se désactive en recliquant sur le bouton (ou en effaçant l
     </main>
 
     <footer class="site-foot wrap">
-      <p>© <span id="year">2026</span> Primary Asset · <span class="mono">1156589290252419212</span></p>
-      <p class="foot-note">
-        <a href="confidentialite.html">Confidentialité</a> ·
-        <a href="cookies.html">Cookies</a> ·
-        <a href="conditions.html">Conditions</a> · Site statique, sans traceur.
-      </p>
+      <p>© <span id="year">2026</span> Primary Asset <span class="mono">1156589290252419212</span></p>
+      <nav class="foot-note" aria-label="Pages légales"><a href="confidentialite.html">Confidentialité</a><a href="cookies.html">Cookies</a><a href="conditions.html">Conditions</a><span>Site statique, sans traceur.</span></nav>
     </footer>
 
     <script src="content.js"></script>
     <script src="app.js"></script>
+    <script src="motion.js"></script>
   </body>
 </html>
