@@ -11,7 +11,7 @@ window.SITE = {
   carte: {
     label: "PROFIL DISCORD",
     tag: "FR",
-    role: "PROPRIÉTAIRE · LA PLACE DE PA",
+    role: "PROPRIÉTAIRE, LA PLACE DE PA",
     serveur: "Get in Touch with Primary Asset",
     membres: "32",
     enLigne: "6",
@@ -67,10 +67,10 @@ window.SITE = {
   ],
 
   bots: [
-    { nom: "Chell", detail: "Bot Discord · créé par Primary Asset" },
-    { nom: "Botillon", detail: "Botlist · catalogue de bots" },
+    { nom: "Chell", detail: "Bot Discord créé par Primary Asset" },
+    { nom: "Botillon", detail: "Botlist, catalogue de bots" },
     { nom: "La place de PA", detail: "Serveur communautaire" },
-    { nom: "Wheatley", detail: "Bot Discord · expérimental" },
+    { nom: "Wheatley", detail: "Bot Discord expérimental" },
     { nom: "Eminium", detail: "Serveur Minecraft PVP Faction" },
     { nom: "NationsEmpire", detail: "Serveur Minecraft Semi RP" },
     { nom: "Nd Protect", detail: "Bot de protection Discord" },
@@ -78,7 +78,7 @@ window.SITE = {
 
   resultats: [
     {
-      titre: "Profil Discord — Primary Asset",
+      titre: "Profil Discord de Primary Asset",
       detail: "Le point d'entrée : identifiant 1156589290252419212.",
       lien: "",
       etiquette: "Discord",
